@@ -56,3 +56,16 @@ h1 {
 #star-count { color: #7b4bab; font-weight: bold; text-shadow: 1px 1px 0 #fff; }
 
 canvas#fx { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+
+/* Magic Keys */
+.big-letter {
+  position: fixed; z-index: 6; font-size: 9rem; font-weight: bold;
+  transform: translate(-50%, -50%); text-shadow: 3px 3px 0 #fff;
+  pointer-events: none; animation: pop-fade 1.2s forwards;
+}
+@keyframes pop-fade {
+  0% { scale: 0.2; opacity: 0; }
+  20% { scale: 1.15; opacity: 1; }
+  40% { scale: 1; }
+  100% { scale: 1.1; opacity: 0; }
+}
