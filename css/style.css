@@ -108,3 +108,13 @@ canvas#fx { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
   border: 3px solid rgba(255, 255, 255, 0.9);
   box-shadow: inset -8px -8px 16px rgba(120, 80, 160, 0.15);
 }
+
+/* Fairy Flight */
+#fairy {
+  position: fixed; z-index: 4; font-size: 4.5rem;
+  transform: translate(-50%, -50%); pointer-events: none;
+}
+#star {
+  position: fixed; z-index: 3; font-size: 3rem;
+  transform: translate(-50%, -50%); pointer-events: none;
+}
