@@ -4,7 +4,7 @@ A keyboard game arcade for little hands — four fairy-themed mini-games that
 teach letters and the keys real games use. Made by a grandpa for his
 granddaughter.
 
-**Play it:** https://mjdurning.github.io/fairy-keys/
+**Play it:** https://mjdurning.github.io/Fairy-keys/
 
 - **Magic Keys** — press any key for sparkles; letters are spoken out loud
 - **Find the Letter** — find the letter the fairy asks for
