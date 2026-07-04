@@ -69,3 +69,32 @@ canvas#fx { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
   40% { scale: 1; }
   100% { scale: 1.1; opacity: 0; }
 }
+
+/* Find the Letter */
+#stage {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; gap: 8px;
+}
+.fairy-icon { font-size: 5rem; }
+#target {
+  font-size: 14rem; font-weight: bold; line-height: 1;
+  text-shadow: 4px 4px 0 #fff; cursor: pointer;
+}
+#keyboard-hint {
+  display: none; flex-direction: column; align-items: center;
+  gap: 6px; margin-top: 10px;
+}
+#keyboard-hint.show { display: flex; }
+.kb-row { display: flex; gap: 6px; }
+.kb-key {
+  width: 44px; height: 44px; display: flex; align-items: center;
+  justify-content: center; background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #d8b6ff; border-radius: 8px;
+  font-weight: bold; font-size: 1.2rem; color: #7b4bab;
+}
+.kb-key.wiggle-key { animation: key-wiggle 0.5s infinite; background: #ffd166; }
+@keyframes key-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-8deg) scale(1.15); }
+  75% { transform: rotate(8deg) scale(1.15); }
+}
