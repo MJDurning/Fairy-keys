@@ -26,6 +26,8 @@
   addEventListener('keyup', function (e) {
     held[e.key] = false;
   });
+  addEventListener('blur', function () { held = {}; });
+  addEventListener('resize', moveStar);
 
   function frame() {
     var step = 4 * FK.speed();

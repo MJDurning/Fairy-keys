@@ -16,6 +16,7 @@
     el.className = 'bubble';
     el.textContent = letter;
     el.style.left = 60 + Math.random() * (innerWidth - 160) + 'px';
+    el.style.top = innerHeight + 60 + 'px';
     document.body.appendChild(el);
     bubbles.push({ letter: letter, el: el, y: innerHeight + 60 });
   }
