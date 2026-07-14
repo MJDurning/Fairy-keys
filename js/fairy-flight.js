@@ -19,6 +19,9 @@
   var items = [];     // uncollected fruit + goal on the board
   var basket = [];    // collected fruit emoji
 
+  var held = {};      // which keys are held right now
+  var trailTick = 0;
+
   function parseMaze(def) {
     var grid = def.rows.map(function (row) { return row.split(''); });
     var m = {
@@ -112,6 +115,73 @@
     if (!stay) setTimeout(function () { el.remove(); }, 2700);
   }
 
+  // True if a fairy centered at (px, py) would poke into a hedge.
+  function blockedAt(px, py) {
+    var reach = cell * 0.3;
+    var pts = [
+      [px - reach, py - reach], [px + reach, py - reach],
+      [px - reach, py + reach], [px + reach, py + reach]
+    ];
+    for (var i = 0; i < pts.length; i++) {
+      var col = Math.floor((pts[i][0] - originX) / cell);
+      var row = Math.floor((pts[i][1] - originY) / cell);
+      if (isHedge(row, col)) return true;
+    }
+    return false;
+  }
+
+  function frame() {
+    if (mode === 'play') {
+      var step = Math.max(2, cell * 0.045) * FK.speed();
+      var nx = x, ny = y;
+      if (held.ArrowLeft) nx -= step;
+      if (held.ArrowRight) nx += step;
+      if (held.ArrowUp) ny -= step;
+      if (held.ArrowDown) ny += step;
+      if (nx !== x && !blockedAt(nx, y)) x = nx;
+      if (ny !== y && !blockedAt(x, ny)) y = ny;
+      fairy.style.left = x + 'px';
+      fairy.style.top = y + 'px';
+
+      var moving = held.ArrowLeft || held.ArrowRight || held.ArrowUp || held.ArrowDown;
+      if (moving && ++trailTick % 6 === 0) {
+        FK.sparkleBurst(x, y + cell * 0.25, FK.randomColor(), 3);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' || e.key === 'F11') return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    e.preventDefault();
+    held[e.key] = true;
+    if (e.key === ' ' && !e.repeat && mode === 'play') {
+      FK.chime();
+      FK.sparkleBurst(x, y, FK.randomColor(), 25);
+    }
+  });
+  addEventListener('keyup', function (e) {
+    held[e.key] = false;
+  });
+  addEventListener('blur', function () { held = {}; });
+
+  addEventListener('resize', function () {
+    if (!maze) return;
+    var row = Math.floor((y - originY) / cell);
+    var col = Math.floor((x - originX) / cell);
+    layout();
+    render();
+    var center = cellCenter(
+      Math.max(0, Math.min(maze.rowCount - 1, row)),
+      Math.max(0, Math.min(maze.colCount - 1, col))
+    );
+    x = center.x;
+    y = center.y;
+    fairy.style.left = x + 'px';
+    fairy.style.top = y + 'px';
+  });
+
   function loadMaze(index) {
     stage = index;
     maze = parseMaze(FK.MAZES[index]);
@@ -130,4 +200,5 @@
 
   renderBasket();
   loadMaze(0);
+  frame();
 })();
