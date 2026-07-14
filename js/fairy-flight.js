@@ -7,6 +7,10 @@
 
   var TOP_PAD = 70;   // room for the HUD and basket
   var PAD = 12;       // breathing room around the maze
+  var FRUIT_NAMES = {
+    '🍎': 'Apple!', '🍌': 'Banana!', '🍇': 'Grapes!',
+    '🍓': 'Strawberry!', '🍊': 'Orange!'
+  };
 
   var stage = 0;      // which maze: 0, 1, 2
   var mode = 'play';  // 'play' | 'wait' | 'finale' | 'again'
@@ -130,6 +134,80 @@
     return false;
   }
 
+  function checkItems() {
+    for (var i = 0; i < items.length; i++) {
+      var center = cellCenter(items[i].row, items[i].col);
+      var dx = center.x - x;
+      var dy = center.y - y;
+      if (Math.sqrt(dx * dx + dy * dy) < cell * 0.55) {
+        collect(items[i], i);
+        return;
+      }
+    }
+  }
+
+  function collect(item, index) {
+    if (item.kind === 'F') {
+      items.splice(index, 1);
+      item.el.remove();
+      maze.grid[item.row][item.col] = '.';
+      basket.push(item.emoji);
+      renderBasket();
+      FK.pop();
+      FK.sparkleBurst(x, y, FK.randomColor(), 25);
+      FK.speak(FRUIT_NAMES[item.emoji]);
+      if (basket.length === FK.FRUITS.length) {
+        mode = 'wait';
+        FK.chime();
+        setTimeout(function () { loadMaze(2); }, 800);
+      }
+    } else if (stage === 0) {
+      mode = 'wait';
+      FK.chime();
+      FK.sparkleBurst(x, y, '#ffd166', 40);
+      setTimeout(function () { loadMaze(1); }, 700);
+    } else {
+      startFinale();
+    }
+  }
+
+  function startFinale() {
+    mode = 'finale';
+    FK.chime();
+    var floats = [];
+    basket.forEach(function (f, i) {
+      var el = document.createElement('div');
+      el.className = 'feast-fruit';
+      el.textContent = f;
+      var angle = (i / basket.length) * Math.PI * 2 - Math.PI / 2;
+      el.style.left = x + Math.cos(angle) * cell * 1.4 + 'px';
+      el.style.top = y + Math.sin(angle) * cell * 1.4 + 'px';
+      el.style.fontSize = cell * 0.6 + 'px';
+      document.body.appendChild(el);
+      floats.push(el);
+    });
+    floats.forEach(function (el, i) {
+      setTimeout(function () {
+        var fx = parseFloat(el.style.left);
+        var fy = parseFloat(el.style.top);
+        el.remove();
+        FK.pop();
+        FK.sparkleBurst(fx, fy, FK.randomColor(), 20);
+        FK.addStar();
+      }, 900 + i * 700);
+    });
+    setTimeout(function () {
+      FK.cheer();
+      FK.fireworks();
+      showMessage('Yummy! 😋');
+      FK.speak('Yummy! What a delicious feast!');
+    }, 900 + floats.length * 700 + 300);
+    setTimeout(function () {
+      showMessage('Play again? Press any key! ✨', true);
+      mode = 'again';
+    }, 900 + floats.length * 700 + 3200);
+  }
+
   function frame() {
     if (mode === 'play') {
       var step = Math.max(2, cell * 0.045) * FK.speed();
@@ -147,6 +225,7 @@
       if (moving && ++trailTick % 6 === 0) {
         FK.sparkleBurst(x, y + cell * 0.25, FK.randomColor(), 3);
       }
+      checkItems();
     }
     requestAnimationFrame(frame);
   }
@@ -155,6 +234,14 @@
     if (e.key === 'Escape' || e.key === 'F11') return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     e.preventDefault();
+    if (mode === 'again' && !e.repeat) {
+      var msg = document.querySelector('.maze-msg');
+      if (msg) msg.remove();
+      basket = [];
+      renderBasket();
+      loadMaze(0);
+      return;
+    }
     held[e.key] = true;
     if (e.key === ' ' && !e.repeat && mode === 'play') {
       FK.chime();
