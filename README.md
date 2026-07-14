@@ -9,7 +9,7 @@ granddaughter.
 - **Magic Keys** — press any key for sparkles; letters are spoken out loud
 - **Find the Letter** — find the letter the fairy asks for
 - **Bubble Pop** — pop letter bubbles as they float up
-- **Fairy Flight** — steer the fairy with the arrow keys, wave the wand with space
+- **Fairy Flight** — glide through hedge mazes, gather fruit, and cook a pretend feast
 
 The turtle→rabbit slider on the menu slows everything down or speeds it up.
 No accounts, no ads, no tracking — just sparkles.
