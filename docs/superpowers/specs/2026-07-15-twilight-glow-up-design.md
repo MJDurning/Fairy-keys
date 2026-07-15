@@ -83,9 +83,9 @@ game's text is checked against the new background.
   `.hedge` (night-green + moonlit rim), `.maze-item`/fruit glow pulse,
   `#basket`, `.maze-msg`, `.kb-key`, `.bubble`, `.big-letter`, `#target` —
   bright text colors and glows throughout.
-- **`index.html`** — card icons swap emoji spans for `FK.art.icon(...)`
-  (injected by a small inline script or menu.js), fairy by the title; includes
-  `art.js` and `night-sky.js`.
+- **`index.html`** — card icons swap emoji spans for `FK.art.icon(...)` and
+  the fairy hovers by the title; both injected by `js/menu.js` on load.
+  Includes `art.js` and `night-sky.js`.
 - **`fairy-flight.html`** — `#fairy` starts empty; includes `art.js` and
   `night-sky.js`.
 - **`js/fairy-flight.js`** — rendering-only edits:
