@@ -56,6 +56,12 @@ h1 {
   font-size: 1.4rem; font-weight: bold; color: var(--gold-soft);
   font-family: 'Baloo 2', "Comic Sans MS", "Segoe UI", sans-serif;
 }
+.title-fairy { display: inline-block; vertical-align: middle; margin-left: 10px; }
+.title-fairy svg { display: block; animation: fairy-bob 1.6s ease-in-out infinite alternate; }
+@keyframes fairy-bob {
+  from { transform: translateY(-3px); }
+  to   { transform: translateY(3px); }
+}
 [data-soon] { opacity: 0.55; }
 .wiggle { animation: wiggle 0.4s; }
 @keyframes wiggle {
