@@ -12,4 +12,4 @@ granddaughter.
 - **Fairy Flight** — glide through hedge mazes, gather fruit, and cook a pretend feast
 
 The turtle→rabbit slider on the menu slows everything down or speeds it up.
-No accounts, no ads, no tracking — just sparkles.
+No accounts, no ads, no tracking — just sparkles, stars, and fireflies.
