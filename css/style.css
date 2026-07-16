@@ -181,6 +181,9 @@ h1, .game-grid, .speed-box, #stage { position: relative; z-index: 2; }
   position: fixed; z-index: 4;
   transform: translate(-50%, -50%); pointer-events: none;
 }
+#fairy svg { display: block; animation: fairy-bob 1.6s ease-in-out infinite alternate; }
+.maze-item svg, .basket-slot svg, .feast-fruit svg { display: block; }
+#basket .basket-slot { display: flex; align-items: center; }
 #maze { position: fixed; z-index: 2; }
 .hedge {
   position: absolute;

@@ -66,7 +66,7 @@
     mazeEl.style.top = originY + 'px';
     mazeEl.style.width = cell * maze.colCount + 'px';
     mazeEl.style.height = cell * maze.rowCount + 'px';
-    fairy.style.fontSize = cell * 0.72 + 'px';
+    fairy.innerHTML = FK.art.fairy(Math.round(cell * 0.95));
   }
 
   function render() {
@@ -84,16 +84,21 @@
           hedge.style.height = cell + 'px';
           mazeEl.appendChild(hedge);
         } else if (ch === 'G' || ch === 'F') {
+          var em = ch === 'G' ? maze.goalEmoji : maze.fruitAt[r + ',' + c];
           var el = document.createElement('div');
           el.className = 'maze-item';
-          el.textContent = ch === 'G' ? maze.goalEmoji : maze.fruitAt[r + ',' + c];
           el.style.left = c * cell + 'px';
           el.style.top = r * cell + 'px';
           el.style.width = cell + 'px';
           el.style.height = cell + 'px';
-          el.style.fontSize = cell * 0.6 + 'px';
+          if (ch === 'F') {
+            el.innerHTML = FK.art.fruit(em, Math.round(cell * 0.7));
+          } else {
+            el.textContent = em;
+            el.style.fontSize = cell * 0.6 + 'px';
+          }
           mazeEl.appendChild(el);
-          items.push({ row: r, col: c, emoji: el.textContent, el: el, kind: ch });
+          items.push({ row: r, col: c, emoji: em, el: el, kind: ch });
         }
       }
     }
@@ -104,7 +109,7 @@
     FK.FRUITS.forEach(function (f) {
       var slot = document.createElement('span');
       slot.className = 'basket-slot' + (basket.indexOf(f) >= 0 ? ' full' : '');
-      slot.textContent = f;
+      slot.innerHTML = FK.art.fruit(f, 28);
       basketEl.appendChild(slot);
     });
   }
@@ -178,11 +183,10 @@
     basket.forEach(function (f, i) {
       var el = document.createElement('div');
       el.className = 'feast-fruit';
-      el.textContent = f;
       var angle = (i / basket.length) * Math.PI * 2 - Math.PI / 2;
       el.style.left = x + Math.cos(angle) * cell * 1.4 + 'px';
       el.style.top = y + Math.sin(angle) * cell * 1.4 + 'px';
-      el.style.fontSize = cell * 0.6 + 'px';
+      el.innerHTML = FK.art.fruit(f, Math.round(cell * 0.6));
       document.body.appendChild(el);
       floats.push(el);
     });
